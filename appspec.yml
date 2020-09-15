@@ -1,0 +1,32 @@
+version: 0.0
+os: linux
+
+files:
+  - source: sample.war
+    destination: /opt/wildfly/standalone/deployments/service1
+files:
+  - source: sample.war
+    destination: /opt/wildfly/standalone/deployments/service2
+files:
+  - source: sample.war
+    destination: /opt/wildfly/standalone/deployments/service3
+
+# See: https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html
+
+hooks:
+  BeforeInstall:
+    - location: scripts/before-install.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/after-install.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/application-start.sh
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/application-stop.sh
+      timeout: 300
+      runas: root
